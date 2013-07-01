@@ -21,6 +21,24 @@
 
 #include "pa03.h"
 
+
+
+/*This function checks if the file that the user
+input is valid. If it is not the file will return
+NULL and the program will exit.  
+*/
+FILE* validity(const char* filename)
+{
+  FILE * fptr;
+  fptr = fopen(filename,"r");
+  
+  if(fptr == NULL)
+  {
+    printf("Invalid filename given");
+    return NULL;
+  }
+  return fptr;
+}
 /*
  * ============================================================================
  * This function loads in image from disk. The file is stored in a custom image 
@@ -76,6 +94,10 @@
  */
 struct Image* loadImage(const char* filename)
 {
+  FILE * fp;
+  fp = validity(filename);
+    
+  
     return NULL;
 }
 
