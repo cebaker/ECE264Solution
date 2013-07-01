@@ -13,20 +13,20 @@
  * Hint: 
  * You can write additonal functions.
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
-
 #include "pa03.h"
 
 
 
+ImageHeader* fgetbits(FILE* a);
 /*This function checks if the file that the user
 input is valid. If it is not the file will return
 NULL and the program will exit.  
 */
+
 FILE* validity(const char* filename)
 {
   FILE * fptr;
@@ -89,17 +89,26 @@ FILE* validity(const char* filename)
  * newly allocated Image struct.
  * 
  * LEAK NO RESOURCES
- *
+ *FILE* a,int b
  * Good luck.
  */
+ImageHeader* fgetbits(FILE * fp)
+{
+  
+  
+  
+}
 struct Image* loadImage(const char* filename)
 {
   FILE * fp;
+  ImageHeader * header;
+  
   fp = validity(filename);
     
   
     return NULL;
 }
+/*Function used to get the bits in the file*/
 
 
 /*
