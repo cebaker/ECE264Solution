@@ -21,7 +21,7 @@
 
 
 
-ImageHeader* fgetbits(FILE* a);
+struct ImageHeader readhead(FILE* a);
 /*This function checks if the file that the user
 input is valid. If it is not the file will return
 NULL and the program will exit.  
@@ -92,21 +92,41 @@ FILE* validity(const char* filename)
  *FILE* a,int b
  * Good luck.
  */
-ImageHeader* fgetbits(FILE * fp)
+struct ImageHeader readhead(FILE * fp)
 {
+  struct ImageHeader read;
+  int a;
   
+  a = fread(&read,sizeof(struct ImageHeader),1,fp);
+ 
+  return  read;
   
   
 }
+
 struct Image* loadImage(const char* filename)
 {
   FILE * fp;
-  ImageHeader * header;
+  struct ImageHeader  header;
+  struct Image* imageLoad;
   
   fp = validity(filename);
-    
+  header = readhead(fp);  
+  if((header.magic_bits != ECE264_IMAGE_MAGIC_BITS ) || (header.width <= 0) ||(header.height <= 0)||(header.comment_len <= 0))
+  {
+    return NULL;  
+  }
+  printf("Magic_bits %d, Width %d, Height %d, Comment Len %d\n",header.magic_bits,header.width,header.height,header.comment_len);
   
-    return NULL;
+  (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
+  (*imageLoad).data = malloc(sizeof(int)*header.width*header.height);
+  
+  (*imageLoad).height = header.height;
+  (*imageLoad).width = header.width;
+  
+  return  imageLoad;
+  
+  fclose(fp);
 }
 /*Function used to get the bits in the file*/
 
