@@ -20,7 +20,7 @@
 #include "pa03.h"
 
 
-
+int sizecalc(FILE* a);
 struct ImageHeader readhead(FILE* a);
 /*This function checks if the file that the user
 input is valid. If it is not the file will return
@@ -98,43 +98,59 @@ struct ImageHeader readhead(FILE * fp)
   int a;
   
   a = fread(&read,sizeof(struct ImageHeader),1,fp);
-  //printf("Magic_bits %d, Width %d, Height %d, Comment Len %d\n",read.magic_bits,read.width,read.height,read.comment_len);
-  return  read;
-  
-  
+  return  read; 
 }
 
 struct Image* loadImage(const char* filename)
 {
   FILE * fp;
+  int *dataS;
   struct ImageHeader  header;
   struct Image* imageLoad;
-  
   fp = validity(filename);
-  header = readhead(fp);  
-  if(header.magic_bits !=  ECE264_IMAGE_MAGIC_BITS  || (header.width <= 0) ||(header.height <= 0)||(header.comment_len <= 0)||(header.comment_len < 128))
+  header = readhead(fp);
+  
+  
+  
+  if(header.magic_bits != ECE264_IMAGE_MAGIC_BITS  || (header.width <= 0) ||(header.height <= 0)||(header.comment_len <= 0))
   {
     fclose(fp);
-    return NULL; 
     
+    return NULL; 
   }
-  printf("Magic_bits %u, Width %u, Height %u, Comment Len %u\n",header.magic_bits,header.width,header.height,header.comment_len);
- 
-  imageLoad = malloc(sizeof(struct Image));
-  (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
-  (*imageLoad).data = malloc(sizeof(int)*header.width*header.height);
-  fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
-  fread((*imageLoad).data,sizeof(uint8_t)*header.width * header.height,1,fp);
   
+  
+  
+ 
+   imageLoad = malloc(sizeof(struct Image));
+  (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
+ 
+   
+  (*imageLoad).data = malloc(sizeof(int)*header.width*header.height);
+   
+   
+  fread(&(*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
+  fread(&(*imageLoad).data,sizeof(int)*header.width * header.height,1,fp);
   (*imageLoad).height = header.height;
   (*imageLoad).width = header.width;
+  
+  if(imageLoad->data == NULL)
+  {
+    free(imageLoad -> data);
+    return NULL;
+  }
+  if(imageLoad-> comment == NULL)
+  {
+    free(imageLoad-> comment == NULL);
+    return NULL; 
+  }
+  
   fclose(fp);
   return  imageLoad;
   
   
 }
 /*Function used to get the bits in the file*/
-
 
 /*
  * ============================================================================
@@ -149,16 +165,14 @@ void freeImage(struct Image* image)
   {
     return;
   }
-  if(image -> data != NULL)
-  {
-    
-//   free((*image).comment);
-  free(image->data);
-  }
-  if(image ->comment != NULL)
-  {
-  free(image->comment);
-  }
+  if((*image).data != NULL)
+    {
+     free((*image).data);
+    }
+  if((*image).comment != NULL)
+   {
+     free((*image).comment);
+   }
   free(image);
 }
 
