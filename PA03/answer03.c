@@ -251,38 +251,57 @@ void freeImage(struct Image* image)
  * For more information on convolutions see: 
  * http://en.wikipedia.org/wiki/Convolution
  */
-int convHelp(int x,int y, const struct Image * a,const struct Image *b)
-{
- 
-  return x; 
-}
+// int convHelp(int x,int y, const struct Image * a,const struct Image *b)
+// {
+//   int i;
+//   int j;
+//   
+// //   for(i = 0;i < ; i++)
+// //   {
+// //     for(j = 0;j <  ; j++)
+// //     {
+// //       
+// //     }
+// //   }
+//   
+//  
+//   return x; 
+// }
 struct Point convolutionMax(const struct Image* image1, 
 			    const struct Image* image2)
 {
     int i;
     int j;
+    int curwimage1;
+    int curhimage1;
+    int curwimage2;
+    int curhimage2;
     int max = 0;
     int conreturn;
     struct Point peak;
     peak.x = 0;
     peak.y = 0;
-  /*  
+    
     for(i = 0; i < (*image1).height;i++) 
     {
       for(j = 0;j < (*image1).width;j++)
       {
-
-	if(conreturn > max)
+	while()
 	{
-	  max = conreturn;
+	  while()
+	  {
+	    
+	  }
 	  
-	  peak.x = 
+	  
 	}
-	
+
+
+
 	
       }
       
-    }*/
+    }
     return peak;
 }
 
