@@ -19,7 +19,8 @@
 #include <string.h>
 #include "pa03.h"
 
-
+#define TRUE 1
+#define FALSE 0
 
 struct ImageHeader readhead(FILE* a);
 /*This function checks if the file that the user
@@ -109,10 +110,13 @@ struct Image* loadImage(const char* filename)
   FILE * fp;
   struct ImageHeader  header;
   struct Image* imageLoad;
+  int check1 = 0;
+  int check2 = 0;
+  //int okay = TRUE;
   
   fp = validity(filename);
   header = readhead(fp);  
-  if(header.magic_bits !=  ECE264_IMAGE_MAGIC_BITS  || (header.width <= 0) ||(header.height <= 0)||(header.comment_len <= 0)||(header.comment_len < 128))
+  if(header.magic_bits !=  ECE264_IMAGE_MAGIC_BITS  || (header.width <= 0) ||(header.height <= 0)||(header.comment_len <= 0))
   {
     fclose(fp);
     return NULL; 
@@ -122,10 +126,45 @@ struct Image* loadImage(const char* filename)
  
   imageLoad = malloc(sizeof(struct Image));
   (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
+ // fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
+  //fread((*imageLoad).data,sizeof(uint8_t)*header.width * header.height,1,fp);
+  if(imageLoad-> comment == NULL)
+  {
+     fclose(fp);
+     free(imageLoad-> comment);
+     free(imageLoad);
+    return NULL; 
+  }
   (*imageLoad).data = malloc(sizeof(int)*header.width*header.height);
-  fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
-  fread((*imageLoad).data,sizeof(uint8_t)*header.width * header.height,1,fp);
+  if(imageLoad->data == NULL)
+  {
+    fclose(fp);
+    free(imageLoad-> comment);
+    free(imageLoad -> data);
+    free(imageLoad);
+    return NULL;
+  }
+  check1 = fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
+  printf("Check 1 %d\n",check1);
+  if(check1 == 0)
+  {
+     //printf("success\n");
+     fclose(fp);
+     free(imageLoad-> comment);
+     free(imageLoad->data);
+     free(imageLoad);
+    return NULL; 
+  }
   
+  check2 = fread((*imageLoad).data,sizeof(uint8_t)*header.width * header.height,1,fp);
+  if(check2 == 0 )
+  {
+    fclose(fp);
+    free(imageLoad-> comment);
+    free(imageLoad -> data);
+    free(imageLoad);
+    return NULL;
+  }
   (*imageLoad).height = header.height;
   (*imageLoad).width = header.width;
   fclose(fp);
@@ -149,16 +188,8 @@ void freeImage(struct Image* image)
   {
     return;
   }
-  if(image -> data != NULL)
-  {
-    
-//   free((*image).comment);
   free(image->data);
-  }
-  if(image ->comment != NULL)
-  {
   free(image->comment);
-  }
   free(image);
 }
 
@@ -211,3 +242,64 @@ struct Point convolutionMax(const struct Image* image1,
     return peak;
 }
 
+/*
+struct Image* loadImage(const char* filename)
+{
+  FILE * fp;
+  struct ImageHeader  header;
+  struct Image* imageLoad = NULL;
+  
+  int okay = TRUE;
+  
+  fp = validity(filename);
+  
+  if(fp == NULL)
+      okay = FALSE;
+  
+  if(okay)
+      header = readhead(fp);  
+  
+  if(okay && (header.magic_bits !=  ECE264_IMAGE_MAGIC_BITS  || (header.width <= 0) ||(header.height <= 0)||(header.comment_len <= 0)))
+    okay = FALSE;
+  
+  if(okay)
+  printf("Magic_bits %u, Width %u, Height %u, Comment Len %u\n",header.magic_bits,header.width,header.height,header.comment_len);
+ 
+  if(okay) {
+      imageLoad = malloc(sizeof(struct Image));
+      if(imageLoad == NULL) {
+	okay = FALSE;
+      } else {
+	imageLoad-> comment = NULL;
+	imageLoad-> data = NULL;
+      }
+  }
+  if(okay) 
+      (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
+  
+  
+ // fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
+  //fread((*imageLoad).data,sizeof(uint8_t)*header.width * header.height,1,fp);
+  if(okay && imageLoad-> comment == NULL)
+    okay = FALSE;
+ 
+  
+  ...
+  
+  
+  // At the end
+  if(!okay && imageLoad != NULL) {
+    free(imageLoad-> comment);
+    free(imageLoad -> data);
+    free(imageLoad);
+    imageLoad = NULL;
+  }
+   
+   if(fp != NULL)
+  fclose(fp);
+  
+  
+  return  imageLoad;
+  
+  
+}*/
