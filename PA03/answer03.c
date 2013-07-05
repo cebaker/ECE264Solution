@@ -124,11 +124,9 @@ struct Image* loadImage(const char* filename)
     return NULL; 
     
   }
-  printf("Magic_bits %u, Width %u, Height %u, Comment Len %u\n",header.magic_bits,header.width,header.height,header.comment_len);
- 
   imageLoad = malloc(sizeof(struct Image));
   (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
- if(imageLoad-> comment == NULL)
+  if(imageLoad-> comment == NULL)
   {
      fclose(fp);
      free(imageLoad-> comment);
@@ -145,10 +143,9 @@ struct Image* loadImage(const char* filename)
     return NULL;
   }
   check1 = fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
-  printf("Check 1 %d\n",check1);
+
   if(check1 == 0)
   {
-     printf("success\n");
      fclose(fp);
      free(imageLoad-> comment);
      free(imageLoad->data);
@@ -251,57 +248,63 @@ void freeImage(struct Image* image)
  * For more information on convolutions see: 
  * http://en.wikipedia.org/wiki/Convolution
  */
-// int convHelp(int x,int y, const struct Image * a,const struct Image *b)
-// {
-//   int i;
-//   int j;
-//   
-// //   for(i = 0;i < ; i++)
-// //   {
-// //     for(j = 0;j <  ; j++)
-// //     {
-// //       
-// //     }
-// //   }
-//   
-//  
-//   return x; 
-// }
+
 struct Point convolutionMax(const struct Image* image1, 
 			    const struct Image* image2)
 {
     int i;
     int j;
-    int curwimage1;
-    int curhimage1;
-    int curwimage2;
-    int curhimage2;
+    int rangewimage1 = 0;
+    int rangehimage1 = 0;
+    int curwimage1 = 0;
+    int curhimage1 = 0;
+    int curwimage2 = 0;
+    int curhimage2 = 0;
     int max = 0;
-    int conreturn;
+    int conreturn = 0;
     struct Point peak;
     peak.x = 0;
     peak.y = 0;
     
-    for(i = 0; i < (*image1).height;i++) 
+    for(i = 0; i < image1->height;i++) 
     {
-      for(j = 0;j < (*image1).width;j++)
+      for(j = 0;j < image1->width;j++)
       {
-	while()
+	curhimage1 = i;
+	curwimage1 = j;
+	curwimage2 = 0;
+	curhimage2 = 0;
+	rangehimage1 = 0;
+	curhimage2 = 0;
+	conreturn = 0;
+	
+	while((curhimage1 + rangehimage1 < image1->height)&& (curhimage2  < image2->height))
 	{
-	  while()
+	  rangewimage1 = 0;
+	  while((curwimage1 + rangewimage1 < image1->width) && (curwimage2 < image2->width))
 	  {
+	    conreturn += image1->data[(curwimage1 + rangewimage1) + (curhimage1 + rangehimage1) * image1->width]* (image2->data[curwimage2 + curhimage2 * image2->width]);
 	    
+	    rangewimage1++;
+	    curwimage2++;
 	  }
-	  
-	  
+	  curwimage2 = 0;
+	  rangehimage1++;
+	  curhimage2++;
 	}
-
+	
+        if(conreturn > max)
+	{
+	  max = conreturn;
+	  peak.x = curwimage1;
+	  peak.y = curhimage1;
+	}
 
 
 	
       }
-      
-    }
-    return peak;
+ 
+      }
+      printf("Peak X - %d , Peak Y - %d",peak.x,peak.y);
+   return peak;
 }
-
