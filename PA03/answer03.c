@@ -23,6 +23,7 @@
 #define FALSE 0
 
 struct ImageHeader readhead(FILE* a);
+int convHelp(int a ,int b ,const struct Image* x,const struct Image* y);
 /*This function checks if the file that the user
 input is valid. If it is not the file will return
 NULL and the program will exit.  
@@ -112,6 +113,7 @@ struct Image* loadImage(const char* filename)
   struct Image* imageLoad;
   int check1 = 0;
   int check2 = 0;
+  int check3 = 0;
   //int okay = TRUE;
   
   fp = validity(filename);
@@ -126,9 +128,7 @@ struct Image* loadImage(const char* filename)
  
   imageLoad = malloc(sizeof(struct Image));
   (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
- // fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
-  //fread((*imageLoad).data,sizeof(uint8_t)*header.width * header.height,1,fp);
-  if(imageLoad-> comment == NULL)
+ if(imageLoad-> comment == NULL)
   {
      fclose(fp);
      free(imageLoad-> comment);
@@ -148,7 +148,7 @@ struct Image* loadImage(const char* filename)
   printf("Check 1 %d\n",check1);
   if(check1 == 0)
   {
-     //printf("success\n");
+     printf("success\n");
      fclose(fp);
      free(imageLoad-> comment);
      free(imageLoad->data);
@@ -165,6 +165,25 @@ struct Image* loadImage(const char* filename)
     free(imageLoad);
     return NULL;
   }
+   if((*imageLoad).comment[header.comment_len - 1] != '\0')
+   {
+      fclose(fp);
+     free(imageLoad-> comment);
+     free(imageLoad -> data);
+     free(imageLoad); 
+     return NULL;
+   }
+   check3 = fread((*imageLoad).data,1,1,fp);
+   
+   if(check3 != 0 )
+    {
+    fclose(fp);
+    free(imageLoad-> comment);
+    free(imageLoad -> data);
+    free(imageLoad);
+    return NULL;
+    }
+  
   (*imageLoad).height = header.height;
   (*imageLoad).width = header.width;
   fclose(fp);
@@ -232,74 +251,38 @@ void freeImage(struct Image* image)
  * For more information on convolutions see: 
  * http://en.wikipedia.org/wiki/Convolution
  */
+int convHelp(int x,int y, const struct Image * a,const struct Image *b)
+{
+ 
+  return x; 
+}
 struct Point convolutionMax(const struct Image* image1, 
 			    const struct Image* image2)
 {
+    int i;
+    int j;
+    int max = 0;
+    int conreturn;
     struct Point peak;
     peak.x = 0;
     peak.y = 0;
+  /*  
+    for(i = 0; i < (*image1).height;i++) 
+    {
+      for(j = 0;j < (*image1).width;j++)
+      {
 
+	if(conreturn > max)
+	{
+	  max = conreturn;
+	  
+	  peak.x = 
+	}
+	
+	
+      }
+      
+    }*/
     return peak;
 }
 
-/*
-struct Image* loadImage(const char* filename)
-{
-  FILE * fp;
-  struct ImageHeader  header;
-  struct Image* imageLoad = NULL;
-  
-  int okay = TRUE;
-  
-  fp = validity(filename);
-  
-  if(fp == NULL)
-      okay = FALSE;
-  
-  if(okay)
-      header = readhead(fp);  
-  
-  if(okay && (header.magic_bits !=  ECE264_IMAGE_MAGIC_BITS  || (header.width <= 0) ||(header.height <= 0)||(header.comment_len <= 0)))
-    okay = FALSE;
-  
-  if(okay)
-  printf("Magic_bits %u, Width %u, Height %u, Comment Len %u\n",header.magic_bits,header.width,header.height,header.comment_len);
- 
-  if(okay) {
-      imageLoad = malloc(sizeof(struct Image));
-      if(imageLoad == NULL) {
-	okay = FALSE;
-      } else {
-	imageLoad-> comment = NULL;
-	imageLoad-> data = NULL;
-      }
-  }
-  if(okay) 
-      (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
-  
-  
- // fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
-  //fread((*imageLoad).data,sizeof(uint8_t)*header.width * header.height,1,fp);
-  if(okay && imageLoad-> comment == NULL)
-    okay = FALSE;
- 
-  
-  ...
-  
-  
-  // At the end
-  if(!okay && imageLoad != NULL) {
-    free(imageLoad-> comment);
-    free(imageLoad -> data);
-    free(imageLoad);
-    imageLoad = NULL;
-  }
-   
-   if(fp != NULL)
-  fclose(fp);
-  
-  
-  return  imageLoad;
-  
-  
-}*/
