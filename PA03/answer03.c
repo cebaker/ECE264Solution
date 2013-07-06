@@ -91,7 +91,7 @@ FILE* validity(const char* filename)
  * newly allocated Image struct.
  * 
  * LEAK NO RESOURCES
- *FILE* a,int b
+ *
  * Good luck.
  */
 struct ImageHeader readhead(FILE * fp)
@@ -100,7 +100,7 @@ struct ImageHeader readhead(FILE * fp)
   int a;
   
   a = fread(&read,sizeof(struct ImageHeader),1,fp);
-  //printf("Magic_bits %d, Width %d, Height %d, Comment Len %d\n",read.magic_bits,read.width,read.height,read.comment_len);
+  
   return  read;
   
   
@@ -114,7 +114,7 @@ struct Image* loadImage(const char* filename)
   int check1 = 0;
   int check2 = 0;
   int check3 = 0;
-  //int okay = TRUE;
+  
   
   fp = validity(filename);
   header = readhead(fp);  
@@ -129,7 +129,7 @@ struct Image* loadImage(const char* filename)
   if(imageLoad-> comment == NULL)
   {
      fclose(fp);
-     free(imageLoad-> comment);
+     free((*imageLoad).comment);
      free(imageLoad);
     return NULL; 
   }
@@ -137,8 +137,8 @@ struct Image* loadImage(const char* filename)
   if(imageLoad->data == NULL)
   {
     fclose(fp);
-    free(imageLoad-> comment);
-    free(imageLoad -> data);
+    free((*imageLoad).comment);
+    free((*imageLoad).data);
     free(imageLoad);
     return NULL;
   }
@@ -147,8 +147,8 @@ struct Image* loadImage(const char* filename)
   if(check1 == 0)
   {
      fclose(fp);
-     free(imageLoad-> comment);
-     free(imageLoad->data);
+     free((*imageLoad).comment);
+     free((*imageLoad).data);
      free(imageLoad);
     return NULL; 
   }
@@ -157,16 +157,16 @@ struct Image* loadImage(const char* filename)
   if(check2 == 0 )
   {
     fclose(fp);
-    free(imageLoad-> comment);
-    free(imageLoad -> data);
+    free((*imageLoad).comment);
+    free((*imageLoad).data);
     free(imageLoad);
     return NULL;
   }
    if((*imageLoad).comment[header.comment_len - 1] != '\0')
    {
       fclose(fp);
-     free(imageLoad-> comment);
-     free(imageLoad -> data);
+     free((*imageLoad).comment);
+     free((*imageLoad).data);
      free(imageLoad); 
      return NULL;
    }
@@ -175,8 +175,8 @@ struct Image* loadImage(const char* filename)
    if(check3 != 0 )
     {
     fclose(fp);
-    free(imageLoad-> comment);
-    free(imageLoad -> data);
+    free((*imageLoad).comment);
+    free((*imageLoad).data);
     free(imageLoad);
     return NULL;
     }
@@ -204,8 +204,8 @@ void freeImage(struct Image* image)
   {
     return;
   }
-  free(image->data);
-  free(image->comment);
+  free((*image).data);
+  free((*image).comment);
   free(image);
 }
 
@@ -266,9 +266,9 @@ struct Point convolutionMax(const struct Image* image1,
     peak.x = 0;
     peak.y = 0;
     
-    for(i = 0; i < image1->height;i++) 
+    for(i = 0; i < (*image1).height;i++) 
     {
-      for(j = 0;j < image1->width;j++)
+      for(j = 0;j < (*image1).width;j++)
       {
 	curhimage1 = i;
 	curwimage1 = j;
@@ -278,12 +278,12 @@ struct Point convolutionMax(const struct Image* image1,
 	curhimage2 = 0;
 	conreturn = 0;
 	
-	while((curhimage1 + rangehimage1 < image1->height)&& (curhimage2  < image2->height))
+	while((curhimage1 + rangehimage1 < (*image1).height)&& (curhimage2  < (*image2).height))
 	{
 	  rangewimage1 = 0;
-	  while((curwimage1 + rangewimage1 < image1->width) && (curwimage2 < image2->width))
+	  while((curwimage1 + rangewimage1 < (*image1).width) && (curwimage2 < (*image2).width))
 	  {
-	    conreturn += image1->data[(curwimage1 + rangewimage1) + (curhimage1 + rangehimage1) * image1->width]* (image2->data[curwimage2 + curhimage2 * image2->width]);
+	    conreturn += (*image1).data[(curwimage1 + rangewimage1) + (curhimage1 + rangehimage1) * (*image1).width]* ((*image2).data[curwimage2 + curhimage2 * (*image2).width]);
 	    
 	    rangewimage1++;
 	    curwimage2++;
@@ -305,6 +305,6 @@ struct Point convolutionMax(const struct Image* image1,
       }
  
       }
-      printf("Peak X - %d , Peak Y - %d",peak.x,peak.y);
+      
    return peak;
 }
