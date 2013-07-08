@@ -19,11 +19,10 @@
 #include <string.h>
 #include "pa03.h"
 
-#define TRUE 1
-#define FALSE 0
 
+//General function definitions for readHead 
 struct ImageHeader readhead(FILE* a);
-int convHelp(int a ,int b ,const struct Image* x,const struct Image* y);
+
 /*This function checks if the file that the user
 input is valid. If it is not the file will return
 NULL and the program will exit.  
@@ -94,16 +93,15 @@ FILE* validity(const char* filename)
  *
  * Good luck.
  */
+
+//This readhead function returns the value's of the 
+//structure into the structure
 struct ImageHeader readhead(FILE * fp)
 {
   struct ImageHeader read;
   int a;
-  
   a = fread(&read,sizeof(struct ImageHeader),1,fp);
-  
   return  read;
-  
-  
 }
 
 struct Image* loadImage(const char* filename)
@@ -117,13 +115,16 @@ struct Image* loadImage(const char* filename)
   
   
   fp = validity(filename);
-  header = readhead(fp);  
+  header = readhead(fp);
+  //Here are some function's to check for the magic bits and 
+  //other illigitamite 
   if(header.magic_bits !=  ECE264_IMAGE_MAGIC_BITS  || (header.width <= 0) ||(header.height <= 0)||(header.comment_len <= 0))
   {
     fclose(fp);
     return NULL; 
     
   }
+  //This imageLoad function allocates memory for the structure itself
   imageLoad = malloc(sizeof(struct Image));
   (*imageLoad).comment = malloc(sizeof(char)*header.comment_len);
   if(imageLoad-> comment == NULL)
@@ -133,6 +134,8 @@ struct Image* loadImage(const char* filename)
      free(imageLoad);
     return NULL; 
   }
+  //Here I am mallocing memory for the data
+  //The memory is equal to 4 times the height and the width of the header
   (*imageLoad).data = malloc(sizeof(int)*header.width*header.height);
   if(imageLoad->data == NULL)
   {
@@ -142,6 +145,8 @@ struct Image* loadImage(const char* filename)
     free(imageLoad);
     return NULL;
   }
+  //This function check's with fread if the comment is validity
+  //If it is not then the check1 will return 0 and the program will exit
   check1 = fread((*imageLoad).comment,sizeof(char)*header.comment_len,1,fp);
 
   if(check1 == 0)
@@ -152,7 +157,8 @@ struct Image* loadImage(const char* filename)
      free(imageLoad);
     return NULL; 
   }
-  
+  //This check to does a check to see if the data in the file is legitamat
+  //if it is not legit then the program returns a NULL character
   check2 = fread((*imageLoad).data,sizeof(uint8_t)*header.width * header.height,1,fp);
   if(check2 == 0 )
   {
@@ -162,6 +168,9 @@ struct Image* loadImage(const char* filename)
     free(imageLoad);
     return NULL;
   }
+  
+  //This function checks for the null character at the end of the
+  //file. Fread returns comment minus one 
    if((*imageLoad).comment[header.comment_len - 1] != '\0')
    {
       fclose(fp);
@@ -172,6 +181,9 @@ struct Image* loadImage(const char* filename)
    }
    check3 = fread((*imageLoad).data,1,1,fp);
    
+   //This function check to see if the file height is not valid 
+   //I use fread to check if you can still read after the data 
+   //was supposidly fully read
    if(check3 != 0 )
     {
     fclose(fp);
