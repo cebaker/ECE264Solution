@@ -1,0 +1,72 @@
+commit 259fb997a79b118c2fb3ea224242cec09832c9c9
+Author: Cedrick E Baker <cebaker@ecelinux24.ecn.purdue.edu>
+Date:   Fri Jul 5 10:06:01 2013 -0400
+
+    Fixing Segmentation Faults
+
+commit ff1510119c7d61e661485390e0a0dd3fe6264b07
+Author: Cedrick E Baker <cebaker@ecelinux09.ecn.purdue.edu>
+Date:   Thu Jul 4 18:53:16 2013 -0400
+
+    Working on memory Leaks
+
+commit 9b16454d83e5d792527aa3f965da3e5098ba46f9
+Author: Cedrick E Baker <cebaker@ecelinux09.ecn.purdue.edu>
+Date:   Wed Jul 3 09:15:59 2013 -0400
+
+    Fixing Memory Leaks /*Free Image Function*/
+
+commit 66f0e1508ead1ca4d444e6a0e1274b6e6ae7b3eb
+Author: Cedrick E Baker <cebaker@ecelinux17.ecn.purdue.edu>
+Date:   Tue Jul 2 12:33:23 2013 -0400
+
+    This does not compile but just a minor problem with the
+    load image return type
+
+commit 703c345dd6d7fabf0a539f90e3ffb3446b3daf98
+Author: Cedrick E Baker <cebaker@ecelinux45.ecn.purdue.edu>
+Date:   Mon Jul 1 16:46:04 2013 -0400
+
+    Just commiting the rest of the files
+
+commit 0c171e3b598af9a3576bac1265d4c3dec03533bd
+Author: Cedrick E Baker <cebaker@ecelinux24.ecn.purdue.edu>
+Date:   Mon Jul 1 08:47:13 2013 -0400
+
+    Starting The Assignment (Sunday June,30,2013)
+
+commit 9808e15898b4563e98e03f21b050168c5ab8d779
+Author: Cedrick E Baker <cebaker@ecelinux31.ecn.purdue.edu>
+Date:   Sun Jun 30 15:46:58 2013 -0400
+
+    These are the final files for the assignment. Edit only Answer03.c
+
+commit 6947fb38e3298002c3979b15477f871641671cf2
+Author: Cedrick E Baker <cebaker@ecelinux31.ecn.purdue.edu>
+Date:   Sun Jun 30 15:08:13 2013 -0400
+
+    This Is the original Makefile given to me.
+
+commit 9df61fafedd2fc1cd937f844577f3fc8c020cdcb
+Author: Cedrick E Baker <cebaker@ecelinux31.ecn.purdue.edu>
+Date:   Sun Jun 30 15:07:42 2013 -0400
+
+    This is The original File Downloaded
+
+commit fe0c5a2215885c815deb2ce9556eac96bb7f2b49
+Author: Cedrick E Baker <cebaker@ecelinux24.ecn.purdue.edu>
+Date:   Wed Jun 26 13:40:51 2013 -0400
+
+    These Are Cedrick Final Submissions.  This is also a test of commiting files to git hub
+
+commit ae66cf4fc6959e86fddee72051aac9ee05e632ea
+Author: Cedrick Emil Baker <cebaker@ecelinux24.ecn.purdue.edu>
+Date:   Wed Jun 12 18:37:59 2013 -0400
+
+     //Just Added 2 Files
+
+commit 02da545ccddd288c306cf52c3e704f7c5561ecd8
+Author: cebaker <cebaker@purdue.edu>
+Date:   Tue Jun 11 11:45:59 2013 -0700
+
+    Initial commit
