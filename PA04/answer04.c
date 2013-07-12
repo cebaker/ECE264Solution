@@ -1,8 +1,36 @@
 #include "pa04.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define ARGCOUNTERROR 1
+#define FILEERROR     2
+#define MEMORYERROR   3 
+#define ORDERERROR    4
+
+void PrintError(int error);
+void crash()
+{
+  char* bad = NULL;
+  *bad = 0;  
+}
+
+SparseNode *SparseNode_check(SparseNode* node)
+{
+  
+#define CHECK(expr,msg)if(expr){fprintf(stderr,"%s\n",msg);crash();}
+  if(node != NULL){
+    if((*node).left)
+       CHECK((node->left->value < node->value),"left -> value not < value");
+    if((*node).right)
+      CHECK((node->right->value > node->value),"Right-> not > value");
+    CHECK((node == node->right),"node->right refers back to node");
+    CHECK((node == node->left),"node->left refers back to node");
+    CHECK((node->value != 0),"node->value should neverbe zero");
+  }
+return 0;
+#undef CHECK
 
 
+}
 /* Create a single instance of a sparse array node with a specific
  * index and value. This is a constructor function that allocates
  * memory, copies the integer values, and sets the subtree pointers to
@@ -12,6 +40,15 @@
 SparseNode *SparseNode_create(int index, int value)
 {
   SparseNode * one_node = NULL;
+  one_node = malloc(sizeof(SparseNode));
+  if(one_node == NULL) 
+  {
+    return NULL;
+  } 
+  (*one_node).left = NULL;
+  (*one_node).right = NULL;
+  (*one_node).value = value;
+  (*one_node).index = index;
   return one_node;
 }
 
@@ -26,6 +63,26 @@ SparseNode *SparseNode_create(int index, int value)
 
 SparseNode * SparseArray_add ( SparseNode * array, int index, int value )
 {
+  if(array == NULL)
+  {
+    return SparseNode_create(index,value);
+  }
+  if(value == (*array).value)
+  {
+    return array;
+  }
+  
+  if(value < (*array).value)
+  {
+    (*array).left = SparseArray_add((*array).left,index,value);
+        
+  }
+  else
+  {
+    (*array).right = SparseArray_add((*array).right,index,value);     
+  }
+  
+  
   return array ;
 }
 
@@ -40,6 +97,11 @@ SparseNode * SparseArray_add ( SparseNode * array, int index, int value )
 SparseNode *SparseArray_build(int * indicies, int * values, int length)
 {
   SparseNode * array = NULL;
+  int i;
+  for(i = 0; i < length; i++)
+  {
+    SparseArray_add(array, indicies[i], values[i]);
+  }
   return array;
 }
 
@@ -49,19 +111,35 @@ SparseNode *SparseArray_build(int * indicies, int * values, int length)
  */
 void SparseArray_destroy ( SparseNode * array )
 {
- 
+  if(array == NULL)
+  {
+    return;
+  }
+  
+  SparseArray_destroy((*array).left);
+  SparseArray_destroy((*array).right);
+  free(array);
 }
 /* Retrieve the smallest index in the sparse array. 
  */
 int SparseArray_getMin ( SparseNode * array )
 {
+  if(array != NULL)
+  {
+    
+    
+    
+    
+    
+  }
   return 0;
 }
 
 /* Retrieve the largest index in the sparse array. 
  */
 int SparseArray_getMax ( SparseNode * array )
-{
+{ 
+  
   return 0;
 }
 
@@ -73,7 +151,21 @@ int SparseArray_getMax ( SparseNode * array )
  */
 SparseNode * SparseArray_getNode(SparseNode * array, int index )
 {
-  return NULL;
+  if(array == NULL)
+  {
+    PrintError(MEMORYERROR);
+    return NULL;
+  }
+  if(index == (*array).index)
+  {
+    return array;
+  }
+  if(index < (*array).index)
+  {
+    return SparseArray_getNode((*array).left,index);
+  }
+ 
+  return SparseArray_getNode((*array).right,index);
 }
 
 /* Remove a value associated with a particular index from the sparse
@@ -127,3 +219,24 @@ SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
   return NULL;
 }
 
+void PrintError(int error)
+{
+  switch(error)
+  {
+    case ARGCOUNTERROR:
+      printf("Not enough arguments. \n Use: ex6 <filename>\n");
+      break;
+    case FILEERROR:
+      printf("Error opening file!\n");
+      break;
+    case MEMORYERROR:
+      printf("Error allocating memory! Exiting Program!\n");
+      break;
+    case ORDERERROR:
+      printf("Set of value unordered! Exiting Program\n");
+    default:
+	break;
+  }  
+}
+  
+  
