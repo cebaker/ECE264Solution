@@ -21,15 +21,13 @@ SparseNode *SparseNode_check(SparseNode* node)
     if((*node).left)
        CHECK((node->left->value < node->value),"left -> value not < value");
     if((*node).right)
-      CHECK((node->right->value > node->value),"Right-> not > value");
+    CHECK((node->right->value > node->value),"Right-> not > value");
     CHECK((node == node->right),"node->right refers back to node");
     CHECK((node == node->left),"node->left refers back to node");
     CHECK((node->value != 0),"node->value should neverbe zero");
   }
 return 0;
 #undef CHECK
-
-
 }
 /* Create a single instance of a sparse array node with a specific
  * index and value. This is a constructor function that allocates
@@ -245,6 +243,8 @@ SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
 {
   SparseNode * merged = NULL;
 
+
+  merged = SparseArray_copy(array_1);
   
   if(array_1 == NULL || array_2 == NULL)
   {
