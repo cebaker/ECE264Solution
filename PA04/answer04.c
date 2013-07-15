@@ -9,6 +9,7 @@
 
 void PrintError(int error);
 SparseNode * SparseArray_mergeHelper(SparseNode * array_1,SparseNode * array_2);
+SparseNode * SparseArray_mergeHelper2(SparseNode * copy,SparseNode * array_2);
 
 void crash()
 {
@@ -296,7 +297,7 @@ SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
     return NULL;
   }
   
-  SparseArray_mergeHelper(merged,array_2);
+  merged = SparseArray_mergeHelper(merged,array_2);
  
   return(merged);
 }
@@ -304,29 +305,42 @@ SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
 
 SparseNode * SparseArray_mergeHelper(SparseNode * merged,SparseNode * array_2)
 {
-  SparseNode * ptr = NULL;
-  
-   merged = SparseArray_mergeHelper((*merged).left,array_2);
-   merged = SparseArray_mergeHelper((*merged).right,array_2);
-  
-  ptr = SparseArray_getNode(merged,(*array_2).index);
-  
-  if(ptr == NULL)
-  {
-    merged = SparseArray_add(merged,(*array_2).index,(*array_2).value);
-  }
-  else if(ptr != NULL)
-  {
-    
-    
-    
-  }
+    if(array_2 == NULL)
+    {
+      return array_2;
+    }
   
   
-    
+    (*array_2).left = SparseArray_mergeHelper(merged,(*array_2).left);
+    (*array_2).right = SparseArray_mergeHelper(merged,(*array_2).right);
+   
+  merged = SparseArray_mergeHelper2(merged,array_2);
+ 
+     
   return merged;
 }
+SparseNode * SparseArray_mergeHelper2(SparseNode * merged,SparseNode * array_2)
+{
+    SparseNode * ptr = NULL;
+    ptr = SparseArray_getNode(merged,(*array_2).index);
 
+    if(ptr == NULL)
+    {
+      merged = SparseArray_add(merged,(*array_2).index,(*array_2).value);
+      return merged;
+    }
+    if((*ptr).index == (*array_2).index)
+    {
+      (*ptr).value += (*array_2).value;
+      if((*ptr).value == 0)
+      {
+        merged = SparseArray_remove(merged,(*array_2).index);          
+      }
+
+    }
+  
+ return merged ;
+}
 
 
 void PrintError(int error)
