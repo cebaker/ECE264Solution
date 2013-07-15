@@ -66,7 +66,9 @@ SparseNode *SparseNode_create(int index, int value)
 
 SparseNode * SparseArray_add( SparseNode * array, int index, int value )
 {
+
  
+  
   if(value != 0 )
   {
     if(array == NULL)
@@ -89,6 +91,7 @@ SparseNode * SparseArray_add( SparseNode * array, int index, int value )
       (*array).right = SparseArray_add((*array).right,index,value);     
     }
   }
+ 
   
   return array ;
 }
@@ -105,6 +108,7 @@ SparseNode *SparseArray_build(int * indicies, int * values, int length)
 {
   SparseNode * array = NULL;
   int i;
+  
   for(i = 0; i < length; i++)
   {
     array = SparseArray_add(array, indicies[i], values[i]);
@@ -122,7 +126,7 @@ void SparseArray_destroy ( SparseNode * array )
   {
     return;
   }
-  
+   
   SparseArray_destroy((*array).left);
   SparseArray_destroy((*array).right);
   free(array);
@@ -139,6 +143,7 @@ int SparseArray_getMin(SparseNode * array)
     
       return(*array).index ;
   }
+  
   return 0;
 }
 
@@ -178,8 +183,12 @@ SparseNode * SparseArray_getNode(SparseNode * array, int index)
   {
     return SparseArray_getNode((*array).left,index);
   }
- 
+  if(index > ((*array).index))
+  {
   return SparseArray_getNode((*array).right,index);
+}
+return NULL;
+
 }
 
 /* Remove a value associated with a particular index from the sparse
@@ -254,6 +263,10 @@ SparseNode * SparseArray_remove ( SparseNode * array, int index )
 
 SparseNode * SparseArray_copy(SparseNode * array)
 {
+   if(array == NULL)
+   {
+     return NULL; 
+   }
   SparseNode *copy = NULL;
     
     copy = SparseArray_add(array,(*array).index,(*array).value);
