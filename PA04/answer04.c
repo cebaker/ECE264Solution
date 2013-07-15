@@ -6,29 +6,31 @@
 #define MEMORYERROR   3 
 #define ORDERERROR    4
 
+SparseNode * SparseArray_mergeHelp(SparseNode * array_1,SparseNode * array_2);
 void PrintError(int error);
-void crash()
-{
-  char* bad = NULL;
-  *bad = 0;  
-}
 
-SparseNode *SparseNode_check(SparseNode* node)
-{
-  
-#define CHECK(expr,msg)if(expr){fprintf(stderr,"%s\n",msg);crash();}
-  if(node != NULL){
-    if((*node).left)
-       CHECK((node->left->value < node->value),"left -> value not < value");
-    if((*node).right)
-    CHECK((node->right->value > node->value),"Right-> not > value");
-    CHECK((node == node->right),"node->right refers back to node");
-    CHECK((node == node->left),"node->left refers back to node");
-    CHECK((node->value != 0),"node->value should neverbe zero");
-  }
-return 0;
-#undef CHECK
-}
+// void crash()
+// {
+//   char* bad = NULL;
+//   *bad = 0;  
+// }
+// 
+// SparseNode *SparseNode_check(SparseNode* node)
+// {
+//   
+// #define CHECK(expr,msg)if(expr){fprintf(stderr,"%s\n",msg);crash();}
+//   if(node != NULL){
+//     if((*node).left)
+//        CHECK((node->left->value < node->value),"left -> value not < value");
+//     if((*node).right)
+//     CHECK((node->right->value > node->value),"Right-> not > value");
+//     CHECK((node == node->right),"node->right refers back to node");
+//     CHECK((node == node->left),"node->left refers back to node");
+//     CHECK((node->value != 0),"node->value should neverbe zero");
+//   }
+// return 0;
+// #undef CHECK
+// }
 /* Create a single instance of a sparse array node with a specific
  * index and value. This is a constructor function that allocates
  * memory, copies the integer values, and sets the subtree pointers to
@@ -126,7 +128,7 @@ void SparseArray_destroy ( SparseNode * array )
 }
 /* Retrieve the smallest index in the sparse array. 
  */
-int SparseArray_getMin (SparseNode * array)
+int SparseArray_getMin(SparseNode * array)
 {
   if(array != NULL)
   {
@@ -141,7 +143,7 @@ int SparseArray_getMin (SparseNode * array)
 
 /* Retrieve the largest index in the sparse array. 
  */
-int SparseArray_getMax ( SparseNode * array )
+int SparseArray_getMax(SparseNode * array)
 { 
   if(array != NULL)
   {
@@ -161,11 +163,10 @@ int SparseArray_getMax ( SparseNode * array )
  * array, it returns NULL. If the given index is smaller than the current
  * node, search left ; if it is larger, search right.
  */
-SparseNode * SparseArray_getNode(SparseNode * array, int index )
+SparseNode * SparseArray_getNode(SparseNode * array, int index)
 {
   if(array == NULL)
-  {
-    
+  {   
     return NULL;
   }
   if(index == (*array).index)
@@ -199,6 +200,18 @@ SparseNode * SparseArray_getNode(SparseNode * array, int index )
 */
 SparseNode * SparseArray_remove ( SparseNode * array, int index )
 {
+  if(array == NULL)
+  {
+    
+   return NULL; 
+  }
+  
+  if(index < (*array).index)
+  {
+    (*array).left = SparseArray_remove((*array).left,index);
+    return array;
+  }
+  
   return array;
 }
 
@@ -238,19 +251,29 @@ SparseNode * SparseArray_copy(SparseNode * array)
  *    should insert those nodes into array_1.
  * 
  */
-
+SparseNode * SparseArray_mergeHelp(SparseNode * array_1,SparseNode * array_2)
+{
+  
+  
+  
+  
+}
 SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
 {
   SparseNode * merged = NULL;
+  int mergeMin,mergeMax;
+  int i,j;
 
+   merged = SparseArray_copy(array_1);
+   mergeMin = SparseArray_getMin(merged);
+   mergeMax = SparseArray_getMax(merged);
 
-  merged = SparseArray_copy(array_1);
-  
   if(array_1 == NULL || array_2 == NULL)
   {
     return NULL;
   }
-  if((*array_1).index == (*array_2).index)
+  
+  for(i = mergeMin;i < mergeMax;i++)
   {
 
 
