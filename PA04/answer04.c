@@ -243,18 +243,32 @@ SparseNode * SparseArray_copy(SparseNode * array)
 
 SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
 {
-  SparseNode * copy;
+  SparseNode * merged = NULL;
+
   
   if(array_1 == NULL || array_2 == NULL)
   {
     return NULL;
   }
+  if((*array_1).index == (*array_2).index)
+  {
+
+
+  }
+
+
+  
+  
+ // if(array_1 == NULL)
+
+  
+  
   
   
   
   
  
-  return NULL;
+  return(merged);
 }
 
 void PrintError(int error)
