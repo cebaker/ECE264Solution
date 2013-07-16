@@ -20,11 +20,11 @@ SparseNode *SparseNode_create(int index, int value)
 {
   SparseNode * one_node = NULL;
   one_node = malloc(sizeof(SparseNode));
- /* if(one_node == NULL) 
+  if(one_node == NULL) 
   {
     PrintError(MEMORYERROR);
     return NULL;
-  } */
+  } 
   one_node -> left = NULL;
   (*one_node).right = NULL;
   (*one_node).value = value;
@@ -95,6 +95,7 @@ SparseNode *SparseArray_build(int * indicies, int * values, int length)
  * traversing the binary tree in postorder. Use the
  * SparseNode_destroy () function to destroy each node by itself.
  */
+
 void SparseArray_destroy ( SparseNode * array )
 {
 
@@ -112,14 +113,17 @@ void SparseArray_destroy ( SparseNode * array )
      if(array->value != 0 )
      {
      free(array);
-     }  
-   }
+     } 
+
+  }
+   
      
 }
 /* Retrieve the smallest index in the sparse array. 
  */
 int SparseArray_getMin(SparseNode * array)
 {
+
   if(array != NULL)
   {
     while ((*array).left != NULL ){
@@ -172,7 +176,6 @@ SparseNode * SparseArray_getNode(SparseNode * array, int index)
   return SparseArray_getNode((*array).right,index);
 
 
-
 }
 
 /* Remove a value associated with a particular index from the sparse
@@ -200,18 +203,18 @@ SparseNode * SparseArray_remove ( SparseNode * array, int index )
    return NULL; 
   }
   
-  if(index < (*array).index)
+  if(index < ((*array).index))
   {
     (*array).left = SparseArray_remove((*array).left,index);
     
     return array;
   }
-  if(index > (*array).index)
+  if(index > ((*array).index))
   {
     (*array).right = SparseArray_remove((*array).right,index);
     return array;
   }
-  if(((*array).left == NULL) && ((*array).right == NULL))
+  if(((*array).left == NULL) && ((*array).right) == NULL)
   {
     free(array);
     return NULL;
@@ -229,42 +232,46 @@ SparseNode * SparseArray_remove ( SparseNode * array, int index )
     free(array); 
     return lbuff; 
   }
+  
+  
   SparseNode * su = (*array).right;
-  
-  
-  while((*array).right == NULL)
+  while((*su).left != NULL)
   {
     su = (*su).left;  
   }
   
-  (*array).index = (*su).index;
-  (*su).index = index;
-  (*array).right = SparseArray_remove((*array).right,index);
   
+  (*array).index = (*su).index;
+  (*array).value = (*su).value;
+  (*su).index = index;
+  (*array).value = (*su).value;
+  (*array).right = SparseArray_remove((*array).right,index);
   return array;
 }
+
 SparseNode * SparseArray_mergeHelper(SparseNode * merged,SparseNode * array_2)
 {
   SparseNode * ptr = NULL;
+  SparseNode * temp2 = array_2;
   
-  if(array_2 != NULL)
+  if(temp2 != NULL)
   {
   
-    merged = SparseArray_mergeHelper(merged,(*array_2).left);
+    merged = SparseArray_mergeHelper(merged,(*temp2).left);
     
-    merged = SparseArray_mergeHelper(merged,(*array_2).right);
+    merged = SparseArray_mergeHelper(merged,(*temp2).right);
     
   
-    ptr = SparseArray_getNode(merged,(*array_2).index);
+    ptr = SparseArray_getNode(merged,(*temp2).index);
 
     if(ptr == NULL)
     {
-      merged = SparseArray_add(merged,(*array_2).index,(*array_2).value);
+      merged = SparseArray_add(merged,(*temp2).index,(*temp2).value);
       
     }
-    else
+    if(ptr != NULL)
     {
-      (*ptr).value += (*array_2).value;
+      (*ptr).value += (*temp2).value;
 
       if((*ptr).value == 0)
       {
@@ -272,8 +279,10 @@ SparseNode * SparseArray_mergeHelper(SparseNode * merged,SparseNode * array_2)
         merged = SparseArray_remove(merged,(*ptr).index);          
       }
     }
-  } 
-  return merged;
+  
+
+  }
+      return merged;
 }
 /* The function makes a copy of the input sparse array 
  * and it returns a new copy. 
@@ -289,6 +298,7 @@ SparseNode * SparseArray_copy(SparseNode * array)
     
     copy = SparseArray_add(copy,(*array).index,(*array).value);
     
+      
     copy -> right = SparseArray_copy(array -> right);
     copy -> left = SparseArray_copy(array -> left);
  
@@ -310,10 +320,9 @@ SparseNode * SparseArray_copy(SparseNode * array)
  *    should insert those nodes into array_1.
  * 
  */
-
 SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
-{
-  SparseNode * merged ;
+{ 
+  SparseNode * merged  = SparseArray_copy(array_1);
   
 
   if(array_1 == NULL || array_2 == NULL)
@@ -321,44 +330,11 @@ SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
     return NULL;
   }
   
-   merged = SparseArray_copy(array_1);
+   merged = SparseArray_mergeHelper(merged,array_2);
 
-  return SparseArray_mergeHelper(merged, array_2);
+  return merged;
 }
 
-
-// SparseNode * SparseArray_mergeHelper(SparseNode * merged,SparseNode * array_2)
-// {
-//   SparseNode * ptr = NULL;
-//   
-//   if(array_2 != NULL)
-//   {
-//   
-//     merged = SparseArray_mergeHelper(merged,(*array_2).left);
-//     
-//     merged = SparseArray_mergeHelper(merged,(*array_2).right);
-//     
-//   
-//     ptr = SparseArray_getNode(merged,(*array_2).index);
-// 
-//     if(ptr == NULL)
-//     {
-//       merged = SparseArray_add(merged,(*array_2).index,(*array_2).value);
-//       
-//     }
-//     else
-//     {
-//       (*ptr).value += (*array_2).value;
-// 
-//       if((*ptr).value == 0)
-//       {
-// 	
-//         merged = SparseArray_remove(merged,(*ptr).index);          
-//       }
-//     }
-//   } 
-//   return merged;
-// }
 
 
 void PrintError(int error)
@@ -380,5 +356,5 @@ void PrintError(int error)
 	break;
   }  
 }
-  
-  
+
+
