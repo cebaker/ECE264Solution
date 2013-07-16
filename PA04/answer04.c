@@ -231,7 +231,8 @@ SparseNode * SparseArray_remove ( SparseNode * array, int index )
   }
   SparseNode * su = (*array).right;
   
-  while((*array).left != NULL)
+  
+  while((*array).left == NULL)
   {
     su = (*su).left;  
   }
@@ -255,7 +256,7 @@ SparseNode * SparseArray_copy(SparseNode * array)
    }
   SparseNode *copy = NULL;
     
-    copy = SparseArray_add(array,(*array).index,(*array).value);
+    copy = SparseArray_add(copy,(*array).index,(*array).value);
     
     copy -> right = SparseArray_copy(array -> right);
     copy -> left = SparseArray_copy(array -> left);
