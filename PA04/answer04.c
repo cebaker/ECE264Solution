@@ -232,7 +232,7 @@ SparseNode * SparseArray_remove ( SparseNode * array, int index )
   SparseNode * su = (*array).right;
   
   
-  while((*array).left == NULL)
+  while((*array).right == NULL)
   {
     su = (*su).left;  
   }
@@ -243,7 +243,38 @@ SparseNode * SparseArray_remove ( SparseNode * array, int index )
   
   return array;
 }
+SparseNode * SparseArray_mergeHelper(SparseNode * merged,SparseNode * array_2)
+{
+  SparseNode * ptr = NULL;
+  
+  if(array_2 != NULL)
+  {
+  
+    merged = SparseArray_mergeHelper(merged,(*array_2).left);
+    
+    merged = SparseArray_mergeHelper(merged,(*array_2).right);
+    
+  
+    ptr = SparseArray_getNode(merged,(*array_2).index);
 
+    if(ptr == NULL)
+    {
+      merged = SparseArray_add(merged,(*array_2).index,(*array_2).value);
+      
+    }
+    else
+    {
+      (*ptr).value += (*array_2).value;
+
+      if((*ptr).value == 0)
+      {
+	
+        merged = SparseArray_remove(merged,(*ptr).index);          
+      }
+    }
+  } 
+  return merged;
+}
 /* The function makes a copy of the input sparse array 
  * and it returns a new copy. 
  */
@@ -296,38 +327,38 @@ SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
 }
 
 
-SparseNode * SparseArray_mergeHelper(SparseNode * merged,SparseNode * array_2)
-{
-  SparseNode * ptr = NULL;
-  
-  if(array_2 != NULL)
-  {
-  
-    merged = SparseArray_mergeHelper(merged,(*array_2).left);
-    
-    merged = SparseArray_mergeHelper(merged,(*array_2).right);
-    
-  
-    ptr = SparseArray_getNode(merged,(*array_2).index);
-
-    if(ptr == NULL)
-    {
-      merged = SparseArray_add(merged,(*array_2).index,(*array_2).value);
-      
-    }
-    else
-    {
-      (*ptr).value += (*array_2).value;
-
-      if((*ptr).value == 0)
-      {
-	
-        merged = SparseArray_remove(merged,(*ptr).index);          
-      }
-    }
-  } 
-  return merged;
-}
+// SparseNode * SparseArray_mergeHelper(SparseNode * merged,SparseNode * array_2)
+// {
+//   SparseNode * ptr = NULL;
+//   
+//   if(array_2 != NULL)
+//   {
+//   
+//     merged = SparseArray_mergeHelper(merged,(*array_2).left);
+//     
+//     merged = SparseArray_mergeHelper(merged,(*array_2).right);
+//     
+//   
+//     ptr = SparseArray_getNode(merged,(*array_2).index);
+// 
+//     if(ptr == NULL)
+//     {
+//       merged = SparseArray_add(merged,(*array_2).index,(*array_2).value);
+//       
+//     }
+//     else
+//     {
+//       (*ptr).value += (*array_2).value;
+// 
+//       if((*ptr).value == 0)
+//       {
+// 	
+//         merged = SparseArray_remove(merged,(*ptr).index);          
+//       }
+//     }
+//   } 
+//   return merged;
+// }
 
 
 void PrintError(int error)
