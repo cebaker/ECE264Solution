@@ -10,7 +10,7 @@ void Huff_postOrderPrint(HuffNode *tree)
     FILE * fptr;
     fptr = fopen(argv[2],"w");
     
-    
+  
     
     // Base case: empty subtree
     if (tree == NULL) {

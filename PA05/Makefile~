@@ -1,0 +1,50 @@
+GCC = gcc
+CFLAGS = -g -Wall -Wshadow
+VALGRIND = valgrind --leak-check=yes --verbose
+
+ipa2_2:  ipa2_2.o bst.o tree.o
+	$(GCC) $(CFLAGS)  bst.o  tree.o ipa2_2.o -o ipa2_2
+
+ipa2_2.o: ipa2_2.c
+	$(GCC) $(CFLAGS)  -c ipa2_2.c
+
+bst.o: utility.h bst.c
+	$(GCC) $(CFLAGS)  -c bst.c
+
+clean:
+	rm *.o ipa2_2
+
+test:  ipa2_2
+	./ipa2_2 inputs/bit_header_inputs/description_bit outputs/output_bit01
+	diff expected/bit_expected/description_sol outputs/output_bit01
+	./ipa2_2 inputs/bit_header_inputs/gophers_bit outputs/output_bit02
+	diff expected/bit_expected/gophers_sol outputs/output_bit02
+	./ipa2_2 inputs/bit_header_inputs/poetry1_bit outputs/output_bit03
+	diff expected/bit_expected/poetry1_sol outputs/output_bit03
+	./ipa2_2 inputs/bit_header_inputs/poetry2_bit outputs/output_bit04
+	diff expected/bit_expected/poetry2_sol outputs/output_bit04
+	./ipa2_2  inputs/bit_header_inputs/prefixcodes_bit outputs/output_bit05
+	diff expected/bit_expected/prefixcodes_sol outputs/output_bit05
+	./ipa2_2 inputs/bit_header_inputs/stone_bit outputs/output_bit06
+	diff expected/bit_expected/stone_sol outputs/output_bit06
+	./ipa2_2 inputs/bit_header_inputs/woods_bit outputs/output_bit07
+	diff expected/bit_expected/woods_sol outputs/output_bit07
+
+# In this testcase, make test will display an error message.  Since in
+# this case we'll have return value 1 while make expects 0.
+
+
+testmem: ipa2_2
+	$(VALGRIND) --log-file=outputs/memoutput_bit01 ./pa05 inputs/bit_header_inputs/description_bit outputs/output_bit01
+	
+	$(VALGRIND) --log-file=outputs/memoutput_bit02 ./pa05 inputs/bit_header_inputs/gophers_bit outputs/output_bit02
+	
+	$(VALGRIND) --log-file=outputs/memoutput_bit03 ./pa05 inputs/bit_header_inputs/poetry1_bit outputs/output_bit03
+	
+	$(VALGRIND) --log-file=outputs/memoutput_bit04 ./pa05 inputs/bit_header_inputs/poetry2_bit outputs/output_bit04
+	
+	$(VALGRIND) --log-file=outputs/memoutput_bit05 ./pa05 inputs/bit_header_inputs/prefixcodes_bit outputs/output_bit05
+	
+	$(VALGRIND) --log-file=outputs/memoutput_bit06 ./pa05 inputs/bit_header_inputs/stone_bit outputs/output_bit06
+	
+	$(VALGRIND) --log-file=outputs/memoutput_bit07 ./pa05 inputs/bit_header_inputs/woods_bit outputs/output_bit07
