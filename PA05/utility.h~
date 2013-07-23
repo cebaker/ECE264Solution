@@ -1,5 +1,5 @@
-// #ifndef ex3_utility_h
-// #define ex3_utility_h
+ #ifndef ex3_utility_h
+ #define ex3_utility_h
 
 #define TRUE 1
 #define FALSE 0

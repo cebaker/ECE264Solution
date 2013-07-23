@@ -20,14 +20,14 @@ typedef struct llist{
 int  CheckArgCount(int argc);
 FILE* OpenFile(char FileName[], char mode[]);
 void destroyleaf(LLIST *header);
-HuffNode* headerfileread(FILE* fptr,char );
+HuffNode* headerfileread(FILE* fptr,char);
 LLIST* SNodeDestruct(LLIST* node);
 LLIST* SNodeCreate(HuffNode* lptr,LLIST* head);
 void CloseFile(FILE* fptr);
 void PrintError(int error);
 HuffNode* CreateNode(int value);
 HuffNode* nodeconstruct(int);
-int fgetbits(FILE*,int);
+int fgetbits(FILE*,int,unsigned int*,unsigned char*);
 
 void DestroySnode(HuffNode* tree);
 #endif

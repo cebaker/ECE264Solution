@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tree.h"
-#include "utility.h"
+#include "pa05.h"
 
 
 /* DO NOT MODIFY THIS FUNCTION!!! */
@@ -56,32 +56,32 @@ FILE* OpenFile(char FileName[], char mode[])
 
 /*Function used to get the bits in the file*/
 
-int fgetbits(FILE* fp,int number)
+int fgetbits(FILE* fp,int number,int * ct,char * ch)
 {
-  static unsigned char ch = 0;				//ct is leftover bits from read
-  static int ct = 0;
+  //char ch = 0;				//ct is leftover bits from read
+  //static int ct = 0;
   unsigned char character;
   
-  if (ct == 0){
-     fread(&ch, 1, 1, fp);
-     ct = 8;
+  if (*ct == 0){
+     fread(ch, 1, 1, fp);
+     *ct = 8;
   }
-  if (ct<number){
-    character=ch;
-    character=(character<<(8-ct));
-    fread(&ch, 1, 1, fp);
-    character = (character|(ch>>ct));
+  if (*ct<number){
+    character= *ch;
+    character=(character<<(8-*ct));
+    fread(ch, 1, 1, fp);
+    character = (character|(*ch >> *ct));
    
     return character;
   }
-     character=ch;
+     character=*ch;
      if(number==1)
      { 
-     character=(character>>(ct-number))&0x01;
-     ct--;
+     character=(character>>(*ct-number))&0x01;
+     *ct = (*ct - 1);
      }
-     else {character=(character>>(ct-number));
-     ct = 0;
+     else {character=(character>>(*ct-number));
+     *ct = 0;
      }
     
   return ((int) character);
@@ -145,6 +145,8 @@ LLIST* SNodeCreate(HuffNode* lptr,LLIST* head)
 HuffNode* headerfileread(FILE* fp,char bit_char)
 {
   //BIT field;
+  int ct = 0;
+  unsigned char build = 0;
   char ch = '0';
   fseek(fp,0,SEEK_SET);
   LLIST *stackhead = NULL;
@@ -160,13 +162,13 @@ HuffNode* headerfileread(FILE* fp,char bit_char)
   if(bit_char == 't')
   {
     rewind(fp);
-  while((ch = fgetbits(fp,1) == 1) ||(initial == 1)|| (*stackhead).next != NULL)   
+  while((ch = fgetbits(fp,1,&ct,&build) == 1) ||(initial == 1)|| (*stackhead).next != NULL)   
   {
     initial = 0;
     /*if the character is a 1 continue to create a new head and add to the stack the head*/
     if(ch ==  1)
     {
-    ch = fgetbits(fp,8);
+    ch = fgetbits(fp,8,&ct,&build);
     stackhead = SNodeCreate(NULL,stackhead);
     (*stackhead).lptr = nodeconstruct(ch);
     }

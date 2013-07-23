@@ -7,7 +7,6 @@
 /* DO NOT MODIFY THIS FUNCTION!!! */
 void Huff_postOrderPrint(HuffNode *tree)
 {
-  
     
     // Base case: empty subtree
     if (tree == NULL) {
