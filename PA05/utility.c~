@@ -6,35 +6,22 @@
 
 
 /* DO NOT MODIFY THIS FUNCTION!!! */
-void Huff_postOrderPrint(HuffNode *tree,FILE fptr)
-{
-
-    
-    if(fptr == NULL)
-    {
-      PrintError(FILEERROR);   
+void Huff_postOrderPrint(HuffNode *tree)
+{  
+    if(tree == NULL){
       
+    return;
     }
-    
-    // Base case: empty subtree
-    if (tree == NULL) {
-		return;
-    }
-    
-    // Recursive case: post-order traversal
-
-    // Visit left
-    printf("Left\n");
-    Huff_postOrderPrint(tree->left);
-	fprintf(fptr,"Back\n");
-    // Visit right
-    printf("Right\n");
-    Huff_postOrderPrint(tree->right);
-	fprintf(fptr,"Back\n");
-    // Visit node itself (only if leaf)
-    if (tree->left == NULL && tree->right == NULL) {
-		fprintf(fptr,"Leaf: %c\n", tree->value);
-    }
+  printf("Left\n");
+  Huff_postOrderPrint(tree->left);
+  printf("Back\n");
+  printf("Right\n");
+  Huff_postOrderPrint(tree->right);
+  printf("Back\n");
+  if(tree->left == NULL && tree->right == NULL){
+    printf("Leaf: %c\n", tree->value);
+  }
+  return;
     
 
 }
@@ -161,12 +148,18 @@ HuffNode* headerfileread(FILE* fp)
   fseek(fp,0,SEEK_SET);
   LLIST *stackhead = NULL;
   int initial = 1;
+  char check = '0';
+  
+  check = fgetbits(fp,1);
   
   /*this function does all of the functional parts of headerfileread
   it takes return character of fgetbits(fp) and pops or pushes the character of 
   fgetbits(fp) onto or of of the stack essentially doin all of the 
   work needed for this part of the prodject*/
-  while((ch = fgetbits(fp,1) != 0) ||(initial == 1)|| (*stackhead).next != NULL)   
+  if(check == 1)
+  {
+    rewind(fp);
+  while((ch = fgetbits(fp,1) == 1) ||(initial == 1)|| (*stackhead).next != NULL)   
   {
     initial = 0;
     /*if the character is a 1 continue to create a new head and add to the stack the head*/
@@ -186,6 +179,7 @@ HuffNode* headerfileread(FILE* fp)
       stackhead = SNodeDestruct(stackhead);
       stackhead = SNodeCreate(base,stackhead);
     }
+  }
           
   }
   LLIST* temp = stackhead;

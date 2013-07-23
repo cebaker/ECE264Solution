@@ -13,21 +13,21 @@ typedef struct llist{
   struct llist* next;
   struct leaf* lptr;
 }LLIST;
-
+#endif 
 
 
 //Declare Functions
 int  CheckArgCount(int argc);
 FILE* OpenFile(char FileName[], char mode[]);
 void destroyleaf(LLIST *header);
-LEAF* headerfileread(FILE* fptr);
+HuffNode* headerfileread(FILE* fptr);
 LLIST* SNodeDestruct(LLIST* node);
-LLIST* SNodeCreate(LEAF* lptr,LLIST* head);
+LLIST* SNodeCreate(HuffNode* lptr,LLIST* head);
 void CloseFile(FILE* fptr);
 void PrintError(int error);
-LEAF* CreateNode(int value);
-LEAF* nodeconstruct(int);
+HuffNode* CreateNode(int value);
+HuffNode* nodeconstruct(int);
 int fgetbits(FILE*,int);
 
-void DestroySnode(LEAF* tree);
+void DestroySnode(HuffNode* tree);
 #endif
