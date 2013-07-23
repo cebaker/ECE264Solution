@@ -6,7 +6,7 @@
 
 
 /* DO NOT MODIFY THIS FUNCTION!!! */
-void Huff_postOrderPrint(HuffNode *tree,FILE *fptr)
+void Huff_postOrderPrint(HuffNode *tree,FILE fptr)
 {
 
     

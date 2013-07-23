@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <utility.h>
 #include "tree.h"
+#include "bst.c"
 
 /* DO NOT MODIFY THIS FUNCTION!!! */
 void Huff_postOrderPrint(HuffNode *tree)
@@ -10,7 +11,12 @@ void Huff_postOrderPrint(HuffNode *tree)
     FILE * fptr;
     fptr = fopen(argv[2],"w");
     
-    
+    if(fptr == NULL)
+    {
+      PrintError(FILEERROR);
+      
+      
+    }
     
     // Base case: empty subtree
     if (tree == NULL) {
