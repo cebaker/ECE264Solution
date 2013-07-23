@@ -1,5 +1,5 @@
-#ifndef ex3_utility_h
-#define ex3_utility_h
+ #ifndef ex3_utility_h
+ #define ex3_utility_h
 
 #define TRUE 1
 #define FALSE 0
@@ -20,7 +20,7 @@ typedef struct llist{
 int  CheckArgCount(int argc);
 FILE* OpenFile(char FileName[], char mode[]);
 void destroyleaf(LLIST *header);
-HuffNode* headerfileread(FILE* fptr);
+HuffNode* headerfileread(FILE* fptr,char);
 LLIST* SNodeDestruct(LLIST* node);
 LLIST* SNodeCreate(HuffNode* lptr,LLIST* head);
 void CloseFile(FILE* fptr);

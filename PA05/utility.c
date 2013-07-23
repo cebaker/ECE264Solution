@@ -52,12 +52,14 @@ FILE* OpenFile(char FileName[], char mode[])
   return fp;
   
 }
+
+
 /*Function used to get the bits in the file*/
 
 int fgetbits(FILE* fp,int number)
 {
-  static unsigned char ch ;				//ct is leftover bits from read
-  static int ct ;
+  static unsigned char ch = 0;				//ct is leftover bits from read
+  static int ct = 0;
   unsigned char character;
   
   if (ct == 0){
@@ -82,12 +84,11 @@ int fgetbits(FILE* fp,int number)
      ct = 0;
      }
     
-    
-  
-
   return ((int) character);
 
 }
+
+
 /* Node construct constructs a nod that has two leaves*/
 HuffNode *nodeconstruct(int key)
 {
@@ -141,24 +142,26 @@ LLIST* SNodeCreate(HuffNode* lptr,LLIST* head)
 
 /*This function essentially does everything that is needed for ipa2_1 most of the rest of the function that are new are just called in this function and used to create the stack and pop the stack*/
 // I worked heavily on this portion of my algorithm with siriam Rangaramanujan and Alex groh
-HuffNode* headerfileread(FILE* fp)
+HuffNode* headerfileread(FILE* fp,char bit_char)
 {
   //BIT field;
+  int count = 0;
+  
   char ch = '0';
   fseek(fp,0,SEEK_SET);
   LLIST *stackhead = NULL;
   int initial = 1;
-  char check = '0';
+  int check = 0;
   
-  check = fgetbits(fp,1);
+  check = fgetc(fp);
   
   /*this function does all of the functional parts of headerfileread
   it takes return character of fgetbits(fp) and pops or pushes the character of 
   fgetbits(fp) onto or of of the stack essentially doin all of the 
   work needed for this part of the prodject*/
-  if(check == 1)
+  if(bit_char == 't')
   {
-    fseek(fp,
+    rewind(fp);
   while((ch = fgetbits(fp,1) == 1) ||(initial == 1)|| (*stackhead).next != NULL)   
   {
     initial = 0;
@@ -180,12 +183,39 @@ HuffNode* headerfileread(FILE* fp)
       stackhead = SNodeCreate(base,stackhead);
     }
   }
-          
+
   }
-  LLIST* temp = stackhead;
-  free(stackhead);
-  return temp -> lptr;
   
+  if(bit_char == 'h')
+  {
+     rewind(fp);
+     while((ch = fgetc(fp) == '1') ||(initial == '1')|| (*stackhead).next != NULL)   
+       {
+         initial = 0;
+          /*if the character is a 1 continue to create a new head and add to the stack the head*/
+         if(ch ==  1)
+       {
+         ch = fgetc(fp);
+         stackhead = SNodeCreate(NULL,stackhead);
+         (*stackhead).lptr = nodeconstruct(ch);
+       }
+         /*if the character is a zero *pop* the last two items the left and the right child off of the stack*/
+      if(ch == 0)
+       {
+          HuffNode * base = nodeconstruct(0);
+          (*base).right = (*stackhead).lptr;
+          stackhead = SNodeDestruct(stackhead);
+          (*base).left = (*stackhead).lptr;
+	  stackhead = SNodeDestruct(stackhead);
+	  stackhead = SNodeCreate(base,stackhead);
+    }
+  }
+      
+  }
+   LLIST* temp = stackhead;
+  free(stackhead);
+  return temp -> lptr; 
+
 }
 
 /*This function will destroy the stack top after we use it. It wil return a new top being the (*node).next */

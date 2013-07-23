@@ -1,83 +1,85 @@
-==26912== Memcheck, a memory error detector
-==26912== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==26912== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==26912== Command: ./pa05 inputs/bit_header_inputs/stone_bit
-==26912== Parent PID: 26911
-==26912== 
---26912-- 
---26912-- Valgrind options:
---26912--    --tool=memcheck
---26912--    --leak-check=full
---26912--    --verbose
---26912--    --log-file=outputs/memoutput_bit06
---26912-- Contents of /proc/version:
---26912--   Linux version 2.6.32-358.14.1.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-3) (GCC) ) #1 SMP Mon Jun 17 15:54:20 EDT 2013
---26912-- Arch and hwcaps: AMD64, amd64-sse3-cx16
---26912-- Page sizes: currently 4096, max supported 4096
---26912-- Valgrind library directory: /usr/lib64/valgrind
---26912-- Reading syms from /home/shay/a/cebaker/ECE264/Summer/ECE264Solution/PA05/pa05
---26912-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
---26912--    object doesn't have a dynamic symbol table
---26912-- Reading syms from /lib64/ld-2.12.so
---26912-- Scheduler: using generic scheduler lock implementation.
---26912-- Reading suppressions file: /usr/lib64/valgrind/default.supp
-==26912== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-26912-by-cebaker-on-ecelinux17.ecn.purdue.edu
-==26912== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-26912-by-cebaker-on-ecelinux17.ecn.purdue.edu
-==26912== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-26912-by-cebaker-on-ecelinux17.ecn.purdue.edu
-==26912== 
-==26912== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==26912== don't want to do, unless you know exactly what you're doing,
-==26912== or are doing some strange experiment):
-==26912==   /usr/lib64/valgrind/../../bin/vgdb --pid=26912 ...command...
-==26912== 
-==26912== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==26912==   /path/to/gdb ./pa05
-==26912== and then give GDB the following command
-==26912==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=26912
-==26912== --pid is optional if only one valgrind process is running
-==26912== 
---26912-- REDIR: 0x3514017520 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
---26912-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
---26912-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
---26912-- REDIR: 0x3514017390 (index) redirected to 0x4a07bf0 (index)
---26912-- REDIR: 0x3514017410 (strcmp) redirected to 0x4a08530 (strcmp)
---26912-- Reading syms from /lib64/libc-2.12.so
---26912-- REDIR: 0x3514484e80 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---26912-- REDIR: 0x3514487140 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---26912-- REDIR: 0x3514482df0 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
---26912-- REDIR: 0x351447a8a0 (malloc) redirected to 0x4a0696c (malloc)
---26912-- REDIR: 0x3514489820 (memcpy) redirected to 0x4a08b20 (memcpy)
---26912-- REDIR: 0x351447b6d0 (free) redirected to 0x4a06369 (free)
-==26912== Invalid read of size 8
-==26912==    at 0x400B07: headerfileread (utility.c:180)
-==26912==    by 0x400C49: main (pa05.c:24)
-==26912==  Address 0x4c38cc8 is 8 bytes inside a block of size 16 free'd
-==26912==    at 0x4A063F0: free (vg_replace_malloc.c:446)
-==26912==    by 0x400B02: headerfileread (utility.c:179)
-==26912==    by 0x400C49: main (pa05.c:24)
-==26912== 
---26912-- REDIR: 0x3514481310 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
---26912-- REDIR: 0x351448aca0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
-==26912== 
-==26912== HEAP SUMMARY:
-==26912==     in use at exit: 0 bytes in 0 blocks
-==26912==   total heap usage: 31 allocs, 31 frees, 1,168 bytes allocated
-==26912== 
-==26912== All heap blocks were freed -- no leaks are possible
-==26912== 
-==26912== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
-==26912== 
-==26912== 1 errors in context 1 of 1:
-==26912== Invalid read of size 8
-==26912==    at 0x400B07: headerfileread (utility.c:180)
-==26912==    by 0x400C49: main (pa05.c:24)
-==26912==  Address 0x4c38cc8 is 8 bytes inside a block of size 16 free'd
-==26912==    at 0x4A063F0: free (vg_replace_malloc.c:446)
-==26912==    by 0x400B02: headerfileread (utility.c:179)
-==26912==    by 0x400C49: main (pa05.c:24)
-==26912== 
---26912-- 
---26912-- used_suppression:      4 U1004-ARM-_dl_relocate_object
---26912-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
-==26912== 
-==26912== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==30528== Memcheck, a memory error detector
+==30528== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==30528== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==30528== Command: ./pa05 inputs/bit_header_inputs/stone_bit
+==30528== Parent PID: 30527
+==30528== 
+--30528-- 
+--30528-- Valgrind options:
+--30528--    --tool=memcheck
+--30528--    --leak-check=full
+--30528--    --verbose
+--30528--    --log-file=outputs/memoutput_bit06
+--30528-- Contents of /proc/version:
+--30528--   Linux version 2.6.32-358.14.1.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-3) (GCC) ) #1 SMP Mon Jun 17 15:54:20 EDT 2013
+--30528-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--30528-- Page sizes: currently 4096, max supported 4096
+--30528-- Valgrind library directory: /usr/lib64/valgrind
+--30528-- Reading syms from /home/shay/a/cebaker/ECE264/Summer/ECE264Solution/PA05/pa05
+--30528-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--30528--    object doesn't have a dynamic symbol table
+--30528-- Reading syms from /lib64/ld-2.12.so
+--30528-- Scheduler: using generic scheduler lock implementation.
+--30528-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==30528== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-30528-by-cebaker-on-ecelinux17.ecn.purdue.edu
+==30528== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-30528-by-cebaker-on-ecelinux17.ecn.purdue.edu
+==30528== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-30528-by-cebaker-on-ecelinux17.ecn.purdue.edu
+==30528== 
+==30528== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==30528== don't want to do, unless you know exactly what you're doing,
+==30528== or are doing some strange experiment):
+==30528==   /usr/lib64/valgrind/../../bin/vgdb --pid=30528 ...command...
+==30528== 
+==30528== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==30528==   /path/to/gdb ./pa05
+==30528== and then give GDB the following command
+==30528==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=30528
+==30528== --pid is optional if only one valgrind process is running
+==30528== 
+--30528-- REDIR: 0x3514017520 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--30528-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--30528-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--30528-- REDIR: 0x3514017390 (index) redirected to 0x4a07bf0 (index)
+--30528-- REDIR: 0x3514017410 (strcmp) redirected to 0x4a08530 (strcmp)
+--30528-- Reading syms from /lib64/libc-2.12.so
+--30528-- REDIR: 0x3514484e80 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--30528-- REDIR: 0x3514487140 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--30528-- REDIR: 0x3514482df0 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--30528-- REDIR: 0x351447a8a0 (malloc) redirected to 0x4a0696c (malloc)
+--30528-- REDIR: 0x35144812d0 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--30528-- REDIR: 0x3514532d50 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--30528-- REDIR: 0x3514489820 (memcpy) redirected to 0x4a08b20 (memcpy)
+--30528-- REDIR: 0x351447b6d0 (free) redirected to 0x4a06369 (free)
+==30528== Invalid read of size 8
+==30528==    at 0x400D1C: headerfileread (utility.c:215)
+==30528==    by 0x400EA5: main (pa05.c:27)
+==30528==  Address 0x4c38cc8 is 8 bytes inside a block of size 16 free'd
+==30528==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==30528==    by 0x400D17: headerfileread (utility.c:214)
+==30528==    by 0x400EA5: main (pa05.c:27)
+==30528== 
+--30528-- REDIR: 0x3514481310 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--30528-- REDIR: 0x351448aca0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+==30528== 
+==30528== HEAP SUMMARY:
+==30528==     in use at exit: 0 bytes in 0 blocks
+==30528==   total heap usage: 31 allocs, 31 frees, 1,168 bytes allocated
+==30528== 
+==30528== All heap blocks were freed -- no leaks are possible
+==30528== 
+==30528== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==30528== 
+==30528== 1 errors in context 1 of 1:
+==30528== Invalid read of size 8
+==30528==    at 0x400D1C: headerfileread (utility.c:215)
+==30528==    by 0x400EA5: main (pa05.c:27)
+==30528==  Address 0x4c38cc8 is 8 bytes inside a block of size 16 free'd
+==30528==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==30528==    by 0x400D17: headerfileread (utility.c:214)
+==30528==    by 0x400EA5: main (pa05.c:27)
+==30528== 
+--30528-- 
+--30528-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--30528-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==30528== 
+==30528== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)

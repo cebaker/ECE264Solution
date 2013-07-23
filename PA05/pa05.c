@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tree.h"
-#include "utility.h"
+//#include "utility.h"
+#include "pa05.h"
 
 int main(int argc, char** argv){
   
     FILE* fptr;
-   
+    int len = 0;
+    char bit_char ;
     HuffNode* head;
     
     
@@ -18,10 +20,11 @@ int main(int argc, char** argv){
         return EXIT_FAILURE;
     }
     
-   
+    len = strlen(argv[1]);
+    bit_char = argv[1][len - 1];
     
 
-    head = headerfileread(fptr);
+    head = headerfileread(fptr,bit_char);
     
     Huff_postOrderPrint(head);
     CloseFile(fptr);
