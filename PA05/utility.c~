@@ -56,7 +56,7 @@ FILE* OpenFile(char FileName[], char mode[])
 
 /*Function used to get the bits in the file*/
 
-int fgetbits(FILE* fp,int number,int * ct,char * ch)
+int fgetbits(FILE* fp,int number,unsigned int * ct,unsigned char * ch)
 {
   //char ch = 0;				//ct is leftover bits from read
   //static int ct = 0;
@@ -145,7 +145,7 @@ LLIST* SNodeCreate(HuffNode* lptr,LLIST* head)
 HuffNode* headerfileread(FILE* fp,char bit_char)
 {
   //BIT field;
-  int ct = 0;
+  unsigned int ct = 0;
   unsigned char build = 0;
   char ch = '0';
   fseek(fp,0,SEEK_SET);
@@ -183,6 +183,7 @@ HuffNode* headerfileread(FILE* fp,char bit_char)
       stackhead = SNodeCreate(base,stackhead);
     }
   }
+
 
   }
   

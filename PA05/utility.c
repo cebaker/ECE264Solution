@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "tree.h"
 #include "pa05.h"
 
 
@@ -183,6 +182,7 @@ HuffNode* headerfileread(FILE* fp,char bit_char)
       stackhead = SNodeCreate(base,stackhead);
     }
   }
+
 
   }
   

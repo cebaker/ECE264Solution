@@ -1,9 +1,3 @@
-First it Should be noted that I did this program before the Makefile was given late to us.
-Professor Lu told me that the Makefile is for our reference and that we can modify it to 
-give the correct output.  I modified my MakeFile and it will be needed to make my code work. 
-This is mostly because the postorder print prints to the folder with a redirected output.
-otherwise the code works perfectly with no memory leaks or errors. 
-
 Description:
   In the first part of PA05 we deal with decoding a Huffman Encoded file header.
 My Functions:

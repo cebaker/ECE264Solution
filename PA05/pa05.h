@@ -14,9 +14,15 @@ typedef struct llist{
   struct leaf* lptr;
 }LLIST;
 
+typedef struct leaf {
+    int value;
+    struct leaf *left;
+    struct leaf *right;
+} HuffNode;
 
 
 //Declare Functions
+void Huff_postOrderPrint(HuffNode *tree);
 int  CheckArgCount(int argc);
 FILE* OpenFile(char FileName[], char mode[]);
 void destroyleaf(LLIST *header);

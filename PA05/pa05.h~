@@ -1,6 +1,6 @@
 #ifndef ex3_utility_h
 #define ex3_utility_h
-
+#include "tree.h"
 #define TRUE 1
 #define FALSE 0
 #define ARGCOUNTERROR 1 
@@ -27,7 +27,7 @@ void CloseFile(FILE* fptr);
 void PrintError(int error);
 HuffNode* CreateNode(int value);
 HuffNode* nodeconstruct(int);
-int fgetbits(FILE*,int,int*,unsigned char*);
+int fgetbits(FILE*,int,unsigned int*,unsigned char*);
 
 void DestroySnode(HuffNode* tree);
 #endif
