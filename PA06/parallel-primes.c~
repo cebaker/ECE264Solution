@@ -41,22 +41,18 @@ uint128 alphaTou128(const char * str)
 /**
  * The caller is responsible for freeing the result 
  */
-char * u128ToString(uint128 value)
-{
-    int cnt
-    char strnum;
-    uint128 mask1 = 0;
-    uint128 mask2 = 0;
-    
-   // mask1 = value & 1111111111;
-    //mask2 = value & 00000000001111111111;
-
-    copy = mask1 + mask2;
-    printf("\n%c = num\n");
-
-
-    return copy;
-}
+// char * u128ToString(uint128 value)
+// {
+// //     uint128 copy;
+// //     char *buff;
+// //     
+// //     copy = value;
+// // 
+// // 
+// // 
+// 
+//     return NULL;
+// }
 
 /**
  * Test is 'value' is prime.
@@ -123,7 +119,7 @@ int primalityTestParallel(uint128 value, int n_threads)
 void PrimeTest(void * obj)
 {
     object * test;
-
+//     uint128 max = floor(sqrt(value));
     uint128 i;
     for(i = test->start; i <= test -> end; i += 2)
       {

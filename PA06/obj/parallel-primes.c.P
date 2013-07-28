@@ -1,0 +1,1 @@
+obj/parallel-primes.o: parallel-primes.c pa06.h \
