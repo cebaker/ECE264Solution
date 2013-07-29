@@ -60,25 +60,25 @@ int main(int argc, char * * argv)
 //     char * n_str = u128ToString(n);    
 // 
 //     // How many concurrent threads?
-//     errno = 0; // so we know if strtol fails
+     errno = 0; // so we know if strtol fails
      int n_threads = strtol(argv[2], NULL, 10);
 // 
     //Was there an error in the input arguments?
-    int error = FALSE;
-    if(errno != 0 || n_threads <= 0) {
-	fprintf(stderr, "2nd argument must be a valid integer >= 1, aborting.\n");
-	error = TRUE;
-    }
-    if(n_str && strcmp(n_str, argv[1]) != 0) {
-	fprintf(stderr, "1st argument must be a valid 128-bit integer: '%s' != '%s', aborting.\n", n_str, argv[1]);
-	error = TRUE;
-    }
-
-    if(error) {
-	free(n_str);
-	exit(1);
-    }
-    free(n_str);
+//     int error = FALSE;
+//     if(errno != 0 || n_threads <= 0) {
+// 	fprintf(stderr, "2nd argument must be a valid integer >= 1, aborting.\n");
+// 	error = TRUE;
+//     }
+//     if(n_str && strcmp(n_str, argv[1]) != 0) {
+// 	fprintf(stderr, "1st argument must be a valid 128-bit integer: '%s' != '%s', aborting.\n", n_str, argv[1]);
+// 	error = TRUE;
+//     }
+// 
+//     if(error) {
+// 	free(n_str);
+// 	exit(1);
+//     }
+//     free(n_str);
     
     struct timeval time1;
     struct timeval time2;

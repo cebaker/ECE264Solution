@@ -18,11 +18,11 @@ typedef struct prime
   int Pval;
   uint128 start;
   uint128 end;
-  uint number;
+  uint128 number;
   
 }object;
 
-void PrimeTest(void * obj);
+void *PrimeTest(void * obj);
 /**
  * Read a uint128 from a string.
  * This function is provided for your convenience.
@@ -41,22 +41,22 @@ uint128 alphaTou128(const char * str)
 /**
  * The caller is responsible for freeing the result 
  */
-char * u128ToString(uint128 value)
-{
-    int cnt
-    char strnum;
-    uint128 mask1 = 0;
-    uint128 mask2 = 0;
-    
-   // mask1 = value & 1111111111;
-    //mask2 = value & 00000000001111111111;
-
-    copy = mask1 + mask2;
-    printf("\n%c = num\n");
-
-
-    return copy;
-}
+// char * u128ToString(uint128 value)
+// {
+//     int cnt
+//     char strnum;
+//     uint128 mask1 = 0;
+//     uint128 mask2 = 0;
+//     
+//    // mask1 = value & 1111111111;
+//     //mask2 = value & 00000000001111111111;
+// 
+//     copy = mask1 + mask2;
+//     printf("\n%c = num\n");
+// 
+// 
+//     return copy;
+// }
 
 /**
  * Test is 'value' is prime.
@@ -80,12 +80,16 @@ int primalityTestParallel(uint128 value, int n_threads)
     {
     return FALSE;
     }
-    uint128 i,j;
+    uint128 i,j,k;
+    int result = 0;
     uint128 max = floor(sqrt(value));
     uint128 chunk;
     chunk  = (max + n_threads + 1) / n_threads;
+    
     object * piece = malloc(sizeof(object)*n_threads);
-    pthread_t thread[n_threads];
+    pthread_attr_t * attr = malloc(n_threads * sizeof(pthread_attr_t));
+    
+    pthread_t * thread = malloc(n_threads * sizeof(pthread_t));
     
     for(i = 0;i < n_threads;i++)
     {
@@ -100,42 +104,51 @@ int primalityTestParallel(uint128 value, int n_threads)
       {
 	piece[i].start = piece[i].start + 1;
       }
-      pthread_create(&thread[i],NULL,PrimeTest,&piece[i]);
+      pthread_attr_init(&attr[i]);
+      pthread_create(&thread[i],&attr[i],PrimeTest, (void*)&piece[i]);
       
     }
     for(j = 0;j < n_threads;j++)
     {
       pthread_join(thread[j],NULL);
-      if(piece[j].Pval == 1)
-      {
-	return TRUE;
-      }
       
     }
+    for(k = 0;k < n_threads;k++)
+    {
+      if(piece[k].Pval == 1)
+      {
+	result = TRUE;
+      }
+      
+      
+    }
+
     
+    free(piece);
+    free(attr);
+    free(thread);
     
-   
-  return FALSE;  
+  return result;  
            
 }
 
 
-void PrimeTest(void * obj)
+void *PrimeTest(void * obj)
 {
-    object * test;
+    object * test = (object*)obj;
 
     uint128 i;
-    for(i = test->start; i <= test -> end; i += 2)
+    for(i = test->start; i <= test->end; i += 2)
       {
        if((test->number % i) == 0)
          {
 	   test->Pval = FALSE;
-   	   return;
+   	   return NULL;
          }
    
       }
       test->Pval = TRUE;
     
-    return ;
+    return NULL;
 }
 
