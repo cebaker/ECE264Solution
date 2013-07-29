@@ -40,22 +40,29 @@ uint128 alphaTou128(const char * str)
 /**
  * The caller is responsible for freeing the result 
  */
-// char * u128ToString(uint128 value)
-// {
-//     int cnt
-//     char strnum;
-//     uint128 mask1 = 0;
-//     uint128 mask2 = 0;
-//     
-//    // mask1 = value & 1111111111;
-//     //mask2 = value & 00000000001111111111;
-// 
-//     copy = mask1 + mask2;
-//     printf("\n%c = num\n");
-// 
-// 
-//     return copy;
-// }
+char * u128ToString(uint128 value)
+{
+    int len = 0;
+    uint128 tmp = value;
+    uint128 tmp2 = value;
+    int i;
+    
+    while(tmp != 0)
+    {
+      tmp /= 10;
+      len++;
+    }
+    char * string = malloc(sizeof(char)*(len + 1));
+    
+    string[len] = '\0';
+    for( i = len - 1 ;i >= 0;i--)
+    {
+      string[i] = (tmp2 % 10) + '0';
+      
+      tmp2 = tmp2 / 10;
+    }
+    return string;
+}
 
 /**
  * Test is 'value' is prime.
