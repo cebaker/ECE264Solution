@@ -1,4 +1,3 @@
-
 /**
  * The ENTIRE assignment should be completed within this file
  */
@@ -113,11 +112,15 @@ int primalityTestParallel(uint128 value, int n_threads)
       pthread_join(thread[j],NULL);
       
     }
+    
+    result = 1;
+    
     for(k = 0;k < n_threads;k++)
     {
-      if(piece[k].Pval == 1)
+      if(piece[k].Pval != 1)
       {
-	result = TRUE;
+	result = FALSE;
+	k = n_threads;
       }
       
       
@@ -151,4 +154,3 @@ void *PrimeTest(void * obj)
     
     return NULL;
 }
-

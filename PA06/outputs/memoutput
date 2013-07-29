@@ -1,0 +1,70 @@
+==26993== Memcheck, a memory error detector
+==26993== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==26993== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==26993== Command: ./pa06 1111111111111111111 1
+==26993== Parent PID: 22679
+==26993== 
+--26993-- 
+--26993-- Valgrind options:
+--26993--    --tool=memcheck
+--26993--    --leak-check=full
+--26993--    --verbose
+--26993--    --log-file=outputs/memoutput
+--26993-- Contents of /proc/version:
+--26993--   Linux version 2.6.32-358.14.1.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-3) (GCC) ) #1 SMP Mon Jun 17 15:54:20 EDT 2013
+--26993-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--26993-- Page sizes: currently 4096, max supported 4096
+--26993-- Valgrind library directory: /usr/lib64/valgrind
+--26993-- Reading syms from /home/shay/a/cebaker/ECE264/Summer/ECE264Solution/PA06/pa06
+--26993-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--26993--    object doesn't have a dynamic symbol table
+--26993-- Reading syms from /lib64/ld-2.12.so
+--26993-- Scheduler: using generic scheduler lock implementation.
+--26993-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==26993== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-26993-by-cebaker-on-ecelinux17.ecn.purdue.edu
+==26993== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-26993-by-cebaker-on-ecelinux17.ecn.purdue.edu
+==26993== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-26993-by-cebaker-on-ecelinux17.ecn.purdue.edu
+==26993== 
+==26993== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==26993== don't want to do, unless you know exactly what you're doing,
+==26993== or are doing some strange experiment):
+==26993==   /usr/lib64/valgrind/../../bin/vgdb --pid=26993 ...command...
+==26993== 
+==26993== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==26993==   /path/to/gdb ./pa06
+==26993== and then give GDB the following command
+==26993==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=26993
+==26993== --pid is optional if only one valgrind process is running
+==26993== 
+--26993-- REDIR: 0x3514017520 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--26993-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--26993-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--26993-- REDIR: 0x3514017390 (index) redirected to 0x4a07bf0 (index)
+--26993-- REDIR: 0x3514017410 (strcmp) redirected to 0x4a08530 (strcmp)
+--26993-- Reading syms from /lib64/libm-2.12.so
+--26993-- Reading syms from /lib64/libpthread-2.12.so
+--26993-- Reading syms from /lib64/libc-2.12.so
+--26993-- REDIR: 0x3514484e80 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--26993-- REDIR: 0x3514487140 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--26993-- REDIR: 0x3514482df0 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--26993-- REDIR: 0xffffffffff600000 (???) redirected to 0x38049533 (vgPlain_amd64_linux_REDIR_FOR_vgettimeofday)
+--26993-- REDIR: 0x351448aca0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--26993-- REDIR: 0x351447b6d0 (free) redirected to 0x4a06369 (free)
+--26993-- REDIR: 0x351447a8a0 (malloc) redirected to 0x4a0696c (malloc)
+--26993-- REDIR: 0x351447a4e0 (calloc) redirected to 0x4a056d7 (calloc)
+--26993-- REDIR: 0x3514489820 (memcpy) redirected to 0x4a08b20 (memcpy)
+--26993-- REDIR: 0x3514481310 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--26993-- REDIR: 0x35144846b0 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+==26993== 
+==26993== HEAP SUMMARY:
+==26993==     in use at exit: 0 bytes in 0 blocks
+==26993==   total heap usage: 4 allocs, 4 frees, 400 bytes allocated
+==26993== 
+==26993== All heap blocks were freed -- no leaks are possible
+==26993== 
+==26993== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+--26993-- 
+--26993-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--26993-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==26993== 
+==26993== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
