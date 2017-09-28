@@ -13,6 +13,7 @@ void *SSSthread(void* arg);
 
 typedef struct
 {
+	
   long index1;
   long index2;
   int targetNum;
